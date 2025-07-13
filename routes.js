@@ -3,17 +3,18 @@ const router = express.Router();
 const Foodspot = require("./models/foodspots");
 /* const Member = require('./models/members'); */
 
-//get all foodspots Auslesen
+//get all foodspots - Alle Auslesen
 router.get("/foodspots", async (req, res) => {
   const allFoodspots = await Foodspot.find();
   console.log(allFoodspots);
   res.send(allFoodspots);
 });
 
-//get one foodspot Auslesen
+//get one foodspot - Eins Auslesen
 router.get("/foodspots/:id", async (req, res) => {
-  const foodspot = await foodspots.findOne({ _id: req.params.id9 });
-  if (!foodspot) {
+  const foodspot = await Foodspot.findOne({ _id: req.params.id });
+  console.log("ONE Foodspot: ", foodspot);
+  if (foodspot) {
     res.send(foodspot);
   } else {
     res.status(404).send({ message: "Foodspot not found" });
@@ -34,18 +35,6 @@ router.post("/foodspots", async (req, res) => {
   await newFoodspot.save();
   res.send(newFoodspot);
 });
-
-// eine GET-Anfrage
-router.get("/fiw", async (req, res) => {
-  res.send({ message: "Hello FIW!" });
-});
-
-/* // get all members
-router.get('/members', async(req, res) => {
-    const allMembers = await Member.find();
-    console.log(allMembers);
-    res.send(allMembers);
-}); */
 
 router.delete("/foodspots/:id", async (req, res) => {
   const foodspotId = req.params.id;
@@ -71,4 +60,15 @@ router.delete("/foodspots/:id", async (req, res) => {
   }
 });
 
+// eine GET-Anfrage
+router.get("/fiw", async (req, res) => {
+  res.send({ message: "Hello FIW!" });
+});
+
+/* // get all members
+router.get('/members', async(req, res) => {
+    const allMembers = await Member.find();
+    console.log(allMembers);
+    res.send(allMembers);
+}); */
 module.exports = router;
