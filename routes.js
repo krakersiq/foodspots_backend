@@ -10,6 +10,16 @@ router.get("/foodspots", async (req, res) => {
   res.send(allFoodspots);
 });
 
+//get one foodspot Auslesen
+router.get("/foodspots/:id", async (req, res) => {
+  const foodspot = await foodspots.findOne({ _id: req.params.id9 });
+  if (!foodspot) {
+    res.send(foodspot);
+  } else {
+    res.status(404).send({ message: "Foodspot not found" });
+  }
+});
+
 // post one foodspot Eintragen
 router.post("/foodspots", async (req, res) => {
   const newFoodspot = new Foodspot({
@@ -37,23 +47,28 @@ router.get('/members', async(req, res) => {
     res.send(allMembers);
 }); */
 
-/* router.delete('/foodspots', async(req, res) => {
-    const foodspotId = req.query.id;
-    console.log(foodspotId);
-    if (!foodspotId) {
-        return res.status(400).send({ message: "Foodspot ID is required" });
+router.delete("/foodspots/:id", async (req, res) => {
+  const foodspotId = req.params.id;
+  console.log("Im Server: ", foodspotId);
+  if (!foodspotId) {
+    return res.status(400).send({ message: "Foodspot ID is required" });
+  }
+
+  try {
+    const deletedFoodspot = await Foodspot.deleteOne({ _id: foodspotId });
+    if (!deletedFoodspot) {
+      return res.status(404).send({ message: "Foodspot not found" });
     }
-    
-    try {
-        const deletedFoodspot = await Foodspot.findByIdAndDelete(foodspotId);
-        if (!deletedFoodspot) {
-            return res.status(404).send({ message: "Foodspot not found" });
-        }
-        res.send({ message: "Foodspot deleted successfully", foodspot: deletedFoodspot });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: "An error occurred while deleting the foodspot" });
-    }
-} */
+    res.send({
+      message: "Foodspot successfully deleted",
+      foodspot: deletedFoodspot,
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .send({ message: "An error occurred while deleting the foodspot" });
+  }
+});
 
 module.exports = router;
