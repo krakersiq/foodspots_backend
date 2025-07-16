@@ -10,4 +10,6 @@ const schema = new mongoose.Schema({
   kommentar: String,
 });
 
+
+
 module.exports = mongoose.model("Foodspot", schema);
