@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Foodspot = require("./models/foodspots");
-/* const Member = require('./models/members'); */
+
 
 //get all foodspots - Alle Auslesen
 router.get("/foodspots", async (req, res) => {
@@ -42,7 +42,6 @@ router.delete("/foodspots/:id", async (req, res) => {
   if (!foodspotId) {
     return res.status(400).send({ message: "Foodspot ID is required" });
   }
-
   try {
     const deletedFoodspot = await Foodspot.deleteOne({ _id: foodspotId });
     if (!deletedFoodspot) {
@@ -60,15 +59,16 @@ router.delete("/foodspots/:id", async (req, res) => {
   }
 });
 
-// eine GET-Anfrage
+/* // eine GET-Anfrage
 router.get("/fiw", async (req, res) => {
   res.send({ message: "Hello FIW!" });
 });
-
+ */
 /* // get all members
 router.get('/members', async(req, res) => {
     const allMembers = await Member.find();
     console.log(allMembers);
     res.send(allMembers);
 }); */
+
 module.exports = router;
