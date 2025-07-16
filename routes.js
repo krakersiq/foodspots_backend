@@ -59,16 +59,25 @@ router.delete("/foodspots/:id", async (req, res) => {
   }
 });
 
-/* // eine GET-Anfrage
-router.get("/fiw", async (req, res) => {
-  res.send({ message: "Hello FIW!" });
+// update one Foodspot
+router.patch('/foodspots/:id', async(req, res) => {
+    try {
+        const foodspot = await Foodspot.findOne({ _id: req.params.id })
+
+        foodspot.name = req.body.name
+        foodspot.stadt = req.body.stadt
+        foodspot.kueche = req.body.kueche
+        foodspot.bewertung_geschmack = req.body.bewertung_geschmack
+        foodspot.bewertung_preis = req.body.bewertung_preis
+        foodspot.bewertung_ambiente = req.body.bewertung_ambiente
+        foodspot.kommentar = req.body.kommentar
+      
+        await Foodspot.updateOne({ _id: req.params.id }, foodspot);
+        res.send(Foodspot)
+    } catch {
+        res.status(404)
+        res.send({ error: "Foodspot does not exist!" })
+    }
 });
- */
-/* // get all members
-router.get('/members', async(req, res) => {
-    const allMembers = await Member.find();
-    console.log(allMembers);
-    res.send(allMembers);
-}); */
 
 module.exports = router;
